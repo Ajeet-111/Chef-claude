@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function Main() {
+export default function main() {
 
     const [ingredients, setIngredients] = React.useState([])
 
@@ -10,12 +10,12 @@ export default function Main() {
 
     function addIngredient(formData) {
         const newIngredient = formData.get("ingredient")
-        setIngredients(prev => [...prev, newIngredient])
+        setIngredients(prevIngredients => [...prevIngredients, newIngredient])
     }
 
     return (
         <main>
-            <form action={addIngredient} className="add-ingredient-form">
+            <form onClick={addIngredient} className="add-ingredient-form">
                 <input
                     type="text"
                     placeholder="e.g. oregano"
@@ -24,9 +24,17 @@ export default function Main() {
                 />
                 <button>Add ingredient</button>
             </form>
-            <ul>
-                {ingredientsListItems}
-            </ul>
+            {ingredients.length > 0 ? <section>
+                <h2>Ingredients on hand:</h2>
+                <ul className="ingredients-list" aria-live="polite">{ingredientsListItems}</ul>
+                {ingredients.length > 3 && <div className="get-recipe-container">
+                    <div>
+                        <h3>Ready for a recipe?</h3>
+                        <p>Generate a recipe from your list of ingredients.</p>
+                    </div>
+                    <button>Get a recipe</button>
+                </div>}
+            </section> : null}
         </main>
     )
 }
